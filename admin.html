@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GabiTech — Painel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07070c; --surface:#101018; --surface-2:#15131f;
+    --line:rgba(255,255,255,.09); --text:#f4f5fa; --text-soft:#9a9dae; --text-faint:#6b6e7d;
+    --cyan:#39d6ff; --cyan-soft:rgba(57,214,255,.16);
+    --magenta:#ff3ec8; --magenta-soft:rgba(255,62,200,.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+
+  #gate{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:16px;
+  }
+  #gate input{
+    padding:14px 16px; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--text); font-size:15px; width:260px;
+  }
+  #gate button, .btn{
+    padding:12px 22px; border-radius:10px; border:none; font-weight:700; cursor:pointer;
+    background:linear-gradient(90deg,var(--cyan),var(--magenta)); color:#0a0a0e;
+  }
+  #gate p{color:var(--text-faint); font-size:12.5px; max-width:280px; text-align:center;}
+
+  header{
+    padding:22px clamp(20px,5vw,50px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+    position:sticky; top:0; background:rgba(7,7,12,.85); backdrop-filter:blur(12px); z-index:10;
+  }
+  header h1{font-family:'Orbitron',sans-serif; font-size:16px; letter-spacing:.03em;}
+  header h1 span{background:linear-gradient(90deg,var(--cyan),var(--magenta)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+
+  main{max-width:1000px; margin:0 auto; padding:32px clamp(20px,5vw,50px) 100px;}
+
+  .panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:26px; margin-bottom:28px;
+  }
+  .panel h2{font-size:15px; margin-bottom:18px; color:var(--text);}
+
+  .field-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field.full{grid-column:1/-1;}
+  .field label{font-size:12px; color:var(--text-soft); font-weight:500;}
+  .field input, .field select, .field textarea{
+    padding:11px 13px; border-radius:9px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); font-size:14px; font-family:inherit;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{outline:2px solid var(--cyan); outline-offset:1px;}
+
+  .checkbox-row{display:flex; align-items:center; gap:8px; flex-direction:row;}
+  .checkbox-row input{width:auto;}
+
+  .panel-actions{display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;}
+  .btn-secondary{background:rgba(255,255,255,.05); color:var(--text); border:1px solid var(--line);}
+
+  .preview{margin-top:16px; display:flex; align-items:center; gap:12px;}
+  .preview img{width:56px; height:56px; object-fit:cover; border-radius:8px; border:1px solid var(--line);}
+  .preview span{font-size:12px; color:var(--text-faint);}
+
+  .list-item{
+    display:flex; align-items:center; gap:14px; padding:14px 16px; border:1px solid var(--line); border-radius:12px; margin-bottom:10px; background:var(--surface-2);
+  }
+  .list-item img, .list-item .ph{
+    width:44px; height:44px; border-radius:8px; object-fit:cover; background:#0a0a10; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--text-faint); text-align:center;
+  }
+  .list-item .info{flex:1; min-width:0;}
+  .list-item .name{font-weight:600; font-size:14px;}
+  .list-item .meta{font-size:12px; color:var(--text-soft); margin-top:2px;}
+  .badge{font-size:10px; padding:3px 8px; border-radius:999px; font-weight:600; text-transform:uppercase; letter-spacing:.04em;}
+  .badge.local{color:var(--cyan); background:var(--cyan-soft);}
+  .badge.encomenda{color:var(--magenta); background:var(--magenta-soft);}
+  .list-item .actions{display:flex; gap:8px; flex-shrink:0;}
+  .icon-btn{
+    width:34px; height:34px; border-radius:8px; border:1px solid var(--line); background:transparent; color:var(--text-soft);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .icon-btn:hover{border-color:var(--cyan); color:var(--cyan);}
+  .icon-btn.danger:hover{border-color:var(--magenta); color:var(--magenta);}
+  .icon-btn svg{width:16px;height:16px;}
+
+  .empty-list{color:var(--text-faint); font-size:13px; text-align:center; padding:20px;}
+
+  .steps{
+    background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--cyan);
+    border-radius:12px; padding:18px 20px; font-size:13px; color:var(--text-soft); line-height:1.7; margin-bottom:28px;
+  }
+  .steps b{color:var(--text);}
+  .steps ol{margin-left:18px; margin-top:6px;}
+
+  @media (max-width:600px){ .field-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <h1 style="font-family:'Orbitron',sans-serif;font-size:18px;">Painel <span style="background:linear-gradient(90deg,#39d6ff,#ff3ec8);-webkit-background-clip:text;background-clip:text;color:transparent;">GabiTech</span></h1>
+  <input type="password" id="pass" placeholder="Senha do painel">
+  <button onclick="tryEnter()">Entrar</button>
+  <p>Essa senha só evita cliques acidentais — não é uma proteção real. Não divulgue esse link.</p>
+</div>
+
+<div id="app" style="display:none;">
+  <header>
+    <h1>Painel <span>GabiTech</span></h1>
+    <button class="btn" onclick="downloadJson()">⬇ Baixar products.json</button>
+  </header>
+
+  <main>
+    <div class="steps">
+      <b>Como usar:</b>
+      <ol>
+        <li>Adicione, edite ou remova produtos abaixo.</li>
+        <li>Clique em "Baixar products.json".</li>
+        <li>Na Vercel, abra o projeto e substitua o arquivo <code class="mono">products.json</code> pelo que você baixou (arraste o arquivo ou suba pelo painel do projeto).</li>
+        <li>O site atualiza sozinho, sem precisar mexer em mais nada.</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <h2 id="formTitle">Adicionar produto</h2>
+      <div class="field-grid">
+        <div class="field">
+          <label>Tipo</label>
+          <input id="f-type" placeholder="iPhone, Game Stick, Fone Bluetooth...">
+        </div>
+        <div class="field">
+          <label>Nome / modelo</label>
+          <input id="f-name" placeholder="iPhone 14 Pro Max">
+        </div>
+        <div class="field">
+          <label>Cor (opcional)</label>
+          <input id="f-color" placeholder="Roxo">
+        </div>
+        <div class="field">
+          <label>Armazenamento / especificação (opcional)</label>
+          <input id="f-storage" placeholder="256GB">
+        </div>
+        <div class="field">
+          <label>Categoria</label>
+          <select id="f-category">
+            <option value="local">Pronta entrega — Local</option>
+            <option value="encomenda">Sob encomenda — Com garantia</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Preço (R$)</label>
+          <input id="f-price" type="number" placeholder="3300">
+        </div>
+        <div class="field full">
+          <label>Link da imagem (opcional — cole a URL de uma foto hospedada, ex: Imgur)</label>
+          <input id="f-image" placeholder="https://...">
+          <div class="preview" id="f-preview" style="display:none;">
+            <img id="f-preview-img" src=""><span>Pré-visualização</span>
+          </div>
+        </div>
+        <div class="field full">
+          <label>Acessórios inclusos (separados por vírgula, opcional)</label>
+          <input id="f-accessories" placeholder="Capinha, Película, Carregador">
+        </div>
+        <div class="field full checkbox-row">
+          <input type="checkbox" id="f-warranty">
+          <label style="margin:0;">Com garantia</label>
+        </div>
+      </div>
+      <div class="panel-actions">
+        <button class="btn" onclick="saveProduct()" id="saveBtn">Adicionar produto</button>
+        <button class="btn-secondary btn" onclick="resetForm()" id="cancelBtn" style="display:none;">Cancelar edição</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Produtos cadastrados (<span id="countAll">0</span>)</h2>
+      <div id="list"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Troque essa senha se quiser (só é uma trava simples, não é segurança de verdade)
+  const PANEL_PASSWORD = "gabitech2026";
+
+  function tryEnter(){
+    const val = document.getElementById("pass").value;
+    if(val === PANEL_PASSWORD){
+      document.getElementById("gate").style.display = "none";
+      document.getElementById("app").style.display = "block";
+      loadProducts();
+    } else {
+      alert("Senha incorreta.");
+    }
+  }
+  document.getElementById("pass").addEventListener("keydown", e => { if(e.key === "Enter") tryEnter(); });
+
+  let products = [];
+  let editingId = null;
+
+  function loadProducts(){
+    fetch("./products.json")
+      .then(r => r.json())
+      .then(data => { products = data; renderList(); })
+      .catch(() => { products = []; renderList(); });
+  }
+
+  function nextId(){
+    return products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
+  }
+
+  function renderList(){
+    const list = document.getElementById("list");
+    document.getElementById("countAll").textContent = products.length;
+    if(products.length === 0){
+      list.innerHTML = `<div class="empty-list">Nenhum produto cadastrado ainda.</div>`;
+      return;
+    }
+    list.innerHTML = products.map(p => `
+      <div class="list-item">
+        ${p.image ? `<img src="${p.image}">` : `<div class="ph">${(p.type||"?").slice(0,3)}</div>`}
+        <div class="info">
+          <div class="name">${p.name}${p.color ? " · " + p.color : ""}${p.storage ? " · " + p.storage : ""}</div>
+          <div class="meta">
+            <span class="badge ${p.category}">${p.category === "local" ? "Local" : "Encomenda"}</span>
+            &nbsp; R$ ${Number(p.price).toLocaleString("pt-BR")} ${p.warranty ? "· com garantia" : "· sem garantia"}
+          </div>
+        </div>
+        <div class="actions">
+          <button class="icon-btn" title="Editar" onclick="editProduct(${p.id})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </button>
+          <button class="icon-btn danger" title="Excluir" onclick="deleteProduct(${p.id})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+          </button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function resetForm(){
+    editingId = null;
+    document.getElementById("formTitle").textContent = "Adicionar produto";
+    document.getElementById("saveBtn").textContent = "Adicionar produto";
+    document.getElementById("cancelBtn").style.display = "none";
+    ["type","name","color","storage","price","image","accessories"].forEach(f => document.getElementById("f-"+f).value = "");
+    document.getElementById("f-category").value = "local";
+    document.getElementById("f-warranty").checked = false;
+    document.getElementById("f-preview").style.display = "none";
+  }
+
+  function editProduct(id){
+    const p = products.find(x => x.id === id);
+    if(!p) return;
+    editingId = id;
+    document.getElementById("formTitle").textContent = "Editar produto";
+    document.getElementById("saveBtn").textContent = "Salvar alterações";
+    document.getElementById("cancelBtn").style.display = "inline-block";
+    document.getElementById("f-type").value = p.type || "";
+    document.getElementById("f-name").value = p.name || "";
+    document.getElementById("f-color").value = p.color || "";
+    document.getElementById("f-storage").value = p.storage || "";
+    document.getElementById("f-category").value = p.category || "local";
+    document.getElementById("f-price").value = p.price || "";
+    document.getElementById("f-image").value = p.image || "";
+    document.getElementById("f-accessories").value = (p.accessories || []).join(", ");
+    document.getElementById("f-warranty").checked = !!p.warranty;
+    if(p.image){
+      document.getElementById("f-preview-img").src = p.image;
+      document.getElementById("f-preview").style.display = "flex";
+    }
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  function deleteProduct(id){
+    if(!confirm("Remover esse produto da lista?")) return;
+    products = products.filter(p => p.id !== id);
+    renderList();
+  }
+
+  document.getElementById("f-image").addEventListener("input", e => {
+    const val = e.target.value.trim();
+    if(val){
+      document.getElementById("f-preview-img").src = val;
+      document.getElementById("f-preview").style.display = "flex";
+    } else {
+      document.getElementById("f-preview").style.display = "none";
+    }
+  });
+
+  function saveProduct(){
+    const name = document.getElementById("f-name").value.trim();
+    const price = document.getElementById("f-price").value;
+    if(!name || !price){
+      alert("Preencha ao menos o nome e o preço.");
+      return;
+    }
+    const data = {
+      id: editingId || nextId(),
+      type: document.getElementById("f-type").value.trim() || "Produto",
+      name,
+      color: document.getElementById("f-color").value.trim() || null,
+      storage: document.getElementById("f-storage").value.trim() || null,
+      category: document.getElementById("f-category").value,
+      warranty: document.getElementById("f-warranty").checked,
+      accessories: document.getElementById("f-accessories").value.split(",").map(s => s.trim()).filter(Boolean),
+      price: Number(price),
+      image: document.getElementById("f-image").value.trim()
+    };
+    if(editingId){
+      products = products.map(p => p.id === editingId ? data : p);
+    } else {
+      products.push(data);
+    }
+    resetForm();
+    renderList();
+  }
+
+  function downloadJson(){
+    const blob = new Blob([JSON.stringify(products, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "products.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+</script>
+</body>
+</html>
