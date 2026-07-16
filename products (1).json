@@ -1,14 +1,13 @@
-[
-  {
+{
     "id": 1,
     "type": "Iphone",
-    "name": "Iphone 15 pro",
-    "color": "Titânio natural",
-    "storage": "128GB",
+    "name": "Iphone 15",
+    "color": "Branco",
+    "storage": "128",
     "category": "encomenda",
     "warranty": true,
     "accessories": [],
-    "price": 3599.99,
-    "image": "https://imgur.com/a/D2Uqowi#Azq1gc0"
+    "price": 3200,
+    "image": "https://imgur.com/a/oV1xLbu"
   }
 ]
