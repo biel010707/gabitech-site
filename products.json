@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "type": "iPhone",
+    "name": "iPhone 14 Pro Max",
+    "color": "Roxo",
+    "storage": "256GB",
+    "category": "local",
+    "warranty": false,
+    "accessories": [],
+    "price": 3300,
+    "installment": "",
+    "image": ""
+  },
+  {
+    "id": 2,
+    "type": "iPhone",
+    "name": "iPhone 14 Pro Max",
+    "color": null,
+    "storage": "128GB",
+    "category": "local",
+    "warranty": false,
+    "accessories": [],
+    "price": 3150,
+    "installment": "",
+    "image": ""
+  },
+  {
+    "id": 3,
+    "type": "iPhone",
+    "name": "iPhone 14 Pro Max",
+    "color": "Roxo",
+    "storage": "256GB",
+    "category": "encomenda",
+    "warranty": true,
+    "accessories": ["Capinha", "Película", "Carregador"],
+    "price": 3300,
+    "installment": "12x de R$ 275,00",
+    "image": ""
+  }
+]
