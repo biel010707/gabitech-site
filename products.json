@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1,
+    "type": "Iphone",
+    "name": "Iphone 14",
+    "color": "Roxo",
+    "storage": "128GB",
+    "category": "encomenda",
+    "warranty": true,
+    "accessories": [
+      "Capinha",
+      "Pelicula",
+      "Carregador"
+    ],
+    "price": 2350,
+    "installment": "12x de R$ 241,14",
+    "image": "https://i.imgur.com/GdiiWmJ.png"
+  },
+  {
+    "id": 2,
+    "type": "Iphone",
+    "name": "Iphone 15 plus",
+    "color": "Preto",
+    "storage": "128GB",
+    "category": "encomenda",
+    "warranty": true,
+    "accessories": [
+      "Capinha",
+      "Pelicula",
+      "Carregador"
+    ],
+    "price": 3500,
+    "installment": "12x de R$ 359,15",
+    "image": "https://i.imgur.com/40q829d.png"
+  },
+  {
+    "id": 3,
+    "type": "Iphone",
+    "name": "Iphone 15",
+    "color": "Preto",
+    "storage": "256GB",
+    "category": "encomenda",
+    "warranty": true,
+    "accessories": [
+      "Capinha",
+      "Pelicula",
+      "Carregador"
+    ],
+    "price": 3365,
+    "installment": "12x de R$ 345,30",
+    "image": "https://i.imgur.com/40q829d.png"
+  },
+  {
+    "id": 4,
+    "type": "Iphone",
+    "name": "Iphone 15",
+    "color": "Preto",
+    "storage": "128GB",
+    "category": "encomenda",
+    "warranty": true,
+    "accessories": [
+      "Capinha",
+      "Pelicula",
+      "Carregador"
+    ],
+    "price": 3130,
+    "installment": "12x de R$ 321,18",
+    "image": "https://i.imgur.com/40q829d.png"
+  },
+  {
+    "id": 5,
+    "type": "Iphone",
+    "name": "Iphone 14 pro max",
+    "color": "Roxo",
+    "storage": "128GB",
+    "category": "encomenda",
+    "warranty": true,
+    "accessories": [
+      "Capinha",
+      "Pelicula",
+      "Carregador"
+    ],
+    "price": 3470,
+    "installment": "12x de R$ 356,07",
+    "image": "https://i.imgur.com/DXubETc.png"
+  }
+]
