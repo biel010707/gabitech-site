@@ -70,9 +70,9 @@
   {
     "id": 5,
     "type": "Iphone",
-    "name": "Iphone 14 pro max",
-    "color": "Roxo",
-    "storage": "128GB",
+    "name": "Iphone 15 plus",
+    "color": "Preto",
+    "storage": "256GB",
     "category": "encomenda",
     "warranty": true,
     "accessories": [
@@ -80,8 +80,8 @@
       "Pelicula",
       "Carregador"
     ],
-    "price": 3470,
-    "installment": "12x de R$ 356,07",
+    "price": 3400,
+    "installment": "12x de R$ 348,89",
     "image": "Iphone-14-pro-max.png"
   }
 ]
